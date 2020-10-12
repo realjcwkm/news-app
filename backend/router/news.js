@@ -1,12 +1,10 @@
 const express = require( "express" );
-const multer = require( "multer" );
 
 const News = require( "../src/news" );
 const imageProcess = require( "../utils/imageProcess" );
 const router = express.Router();
 
-const storage = multer.memoryStorage();
-const uploads = multer( { storage } );
+const uploads = require( "../middlewares/multer" );
 
 router.post( "/create", uploads.single( "thumbnail" ), async ( req, res ) => {
   const news = new News();
