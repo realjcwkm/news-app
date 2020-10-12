@@ -8,8 +8,8 @@ const imageProcess = async ( req, id ) => {
     }
   } );
 
-  const formatedName = req.file.originalname.split( " " ).join( "-" );
-  const fileName = `${id}-${req.file.originalname}`;
+  const formatedName = req.file.originalname.split( ' ' ).join( "-" );
+  const fileName = `${id}-${formatedName}`;
   try {
     await sharp( req.file.buffer )
       .resize( { width: 615, height: 350 } )
