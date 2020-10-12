@@ -1,14 +1,14 @@
 const express = require( "express" );
-const News = require( "./news" );
+
+const newsRouter = require( "../router/news" );
 
 const app = express();
 app.use( express.static( "public" ) );
+app.use( express.static( "data/uploads" ) );
+app.use( "/api", newsRouter );
 
-new News();
-
-
-app.listen( 3333, () => {
-    console.log( "Server is open" );
+app.listen( 3000, () => {
+	console.log( "Server is open" );
 } );
 // npm run dev
 // tsc --init para usar import from ... em vez de require
