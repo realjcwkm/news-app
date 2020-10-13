@@ -15,4 +15,8 @@ router.post( "/create",
   newsController.createNews
 );
 
+router.get( "/news", newsController.getAllNews );
+router.get( "/news/single/:id", newsController.getSingleNews );
+router.get( "/news/category/:category", newsController.getNewsByCategory );
+
 module.exports = router;

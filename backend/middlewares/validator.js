@@ -19,7 +19,7 @@ const result = ( req, res, next ) => {
 
   if ( hasError ) {
     const error = result.array()[0].msg;
-    res.json( { sucess: false, message: error } );
+    res.json( { success: false, message: error } );
   }
   next();
 }
@@ -28,12 +28,12 @@ const validateFile = ( req, res, next ) => {
   const expectedFileType = ["jpg", "jpeg", "png"];
 
   if ( !req.file ) {
-    return res.json( { sucess: false, message: "Image is required!" } );
+    return res.json( { success: false, message: "Image is required!" } );
   }
 
   const fileExtension = req.file.mimetype.split( "/" ).pop();
   if ( !expectedFileType.includes( fileExtension ) ) {
-    return res.json( { sucess: false, message: "Image file is not valid!" } );
+    return res.json( { success: false, message: "Image file is not valid!" } );
   }
 
   next();

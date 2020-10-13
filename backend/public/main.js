@@ -7,7 +7,7 @@ const message = select( ".message" );
 
 const displayMessage = ( text, color ) => {
 	message.style.visibility = "visible";
-	message.style.backGroundColor = color;
+	message.style.backgroundColor = color;
 	message.innerText = text;
 
 	setTimeout( () => {
@@ -39,15 +39,35 @@ form.addEventListener( "submit", async ( e ) => {
 
 	const valid = validateForm();
 
-	if ( true ) {
+	if ( valid ) {
 		const formData = new FormData( form );
 		await postData( formData );
 	}
 } );
 
+const resetForm = () => {
+	select( "#title" ).value = "";
+	select( "#content" ).value = "";
+	select( "#thumbnail" ).value = null;
+	select( "#category" ).value = "0";
+	select( "#featured-content" ).checked = false;
+};
+
 const postData = async ( data ) => {
-	await fetch( "http://localhost:3000/api/create", {
+	const result = await fetch( "http://localhost:3000/api/create", {
 		method: "POST",
 		body: data
-	} )
+	} );
+
+	if ( result.ok ) {
+		const response = await result.json();
+
+		if ( response.success ) {
+			displayMessage( response.message, "green" );
+			resetForm();
+		}
+		else {
+			displayMessage( response.message, "red" );
+		}
+	}
 }

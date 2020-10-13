@@ -16,8 +16,12 @@ class News {
 	}
 
 	async create( data, id, imageName ) {
-		const totalData = await this.getAll();
-		totalData.push( { ...data, id, thumbnail: `http://localhost:3000/${imageName}` } );
+		const totalData = JSON.parse( await fs.promises.readFile( this.path ) );
+		const { content } = data;
+
+		const desc = content.substr( 0, 100 ) + "...";
+
+		totalData.push( { ...data, id, desc, thumbnail: `http://localhost:3000/${imageName}` } );
 
 		await fs.promises.writeFile( this.path, JSON.stringify( totalData, null, 2 ) );
 	}
@@ -27,11 +31,13 @@ class News {
 	}
 
 	async getAll() {
-		return JSON.parse( await fs.promises.readFile( this.path ) );
+		const data = JSON.parse( await fs.promises.readFile( this.path ) );
+
+		return data.filter( news => delete news.content );
 	}
 
-	async getSingle() {
-		const data = await this.getAll();
+	async getSingle( id ) {
+		const data = JSON.parse( await fs.promises.readFile( this.path ) );
 		return data.find( news => news.id === id );
 	}
 
